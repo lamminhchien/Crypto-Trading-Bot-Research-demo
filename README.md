@@ -4,7 +4,7 @@ This repository serves as a research framework for "Tom-AI," a project focused o
 
 The primary goal is not just to build a single bot, but to create a robust pipeline for **backtesting**, **evaluating**, and **benchmarking** different AI-driven trading strategies. This project is heavily focused on the "Research" aspect of quantitative analysis.
 
-## 🚀 Core Technologies & Concepts
+## Core Technologies & Concepts
 
 * **AI Framework:** PyTorch
 * **Core Architecture:** **Transformer (TFM)** [user_prompt] & Temporal Convolutional Networks (TCN) for feature extraction from market data.
@@ -13,7 +13,7 @@ The primary goal is not just to build a single bot, but to create a robust pipel
 * **Experimental Research:** Mamba (SSM) integration for benchmarking against Transformer-based models.
 * **Data Science Stack:** Python, Pandas, NumPy, Scikit-learn.
 
-## 📈 Methodology
+## Methodology
 
 This project follows a structured **quantitative research** workflow:
 
@@ -38,24 +38,68 @@ The framework includes a rigorous **backtesting** module (`evaluate_model`, `run
 
 ---
 
-## 📊 Project Showcase (Demo)
+## Project Showcase (Code Demo)
 
-As the core trading logic and proprietary strategy parameters are a key part of this research, the full source code is not publicly available [user_prompt]. However, here is a showcase of the project's capabilities and architecture.
+As the core trading logic and proprietary strategy parameters are a key part of this research, the full source code is not publicly available [user_prompt]. However, here are key architectural components demonstrating the project's capabilities.
 
 ### Showcase 1: Transformer-based Feature Extractor
-This is the core `ExtractorTransformer` class, which combines TCNs and a **Transformer Encoder** [user_prompt] to process market data.
 
-*(**HƯỚNG DẪN:** Bạn hãy chụp ảnh màn hình đoạn code class `ExtractorTransformer` trong file notebook của bạn và dán vào đây)*
-`[DÁN ẢNH CHỤP MÀN HÌNH CODE CỦA BẠN VÀO ĐÂY]`
+This is the core `ExtractorTransformer` class, which combines TCNs and a **Transformer Encoder** [user_prompt] to process market data and account data into a single state vector for the RL agent.
+
+```python
+class ExtractorTransformer(BaseFeaturesExtractor):
+    def __init__(self, obs_space, tcn_num_channels, tcn_kernel_size, tcn_dropout, tfm_nhead, tfm_nlayers, tfm_dim_feedforward, account_embedding_dim, **kwargs):
+        tcn_output_dim = tcn_num_channels[-1]; super().__init__(obs_space, features_dim=tcn_output_dim + account_embedding_dim); mkt_shape, acc_dim = obs_space["market_data"].shape, obs_space["account_data"].shape[0]
+        self.tcn = TemporalConvNet(mkt_shape[1], tcn_num_channels, kernel_size=tcn_kernel_size, dropout=tcn_dropout); self.pos_encoder = PositionalEncoding(tcn_output_dim, dropout=tcn_dropout, max_len=mkt_shape[0] + 1); encoder_layer = nn.TransformerEncoderLayer(d_model=tcn_output_dim, nhead=tfm_nhead, dim_feedforward=tfm_dim_feedforward, dropout=tcn_dropout, batch_first=True, activation='gelu'); self.transformer_encoder = nn.TransformerEncoder(encoder_layer, num_layers=tfm_nlayers); self.acc_proc = nn.Sequential(nn.Linear(acc_dim, 64), nn.ReLU(), nn.Linear(64, account_embedding_dim), nn.Tanh())
+    def forward(self, obs):
+        mkt, acc = obs["market_data"], obs["account_data"]; tcn_out = self.tcn(mkt); pos_encoded = self.pos_encoder(tcn_out); tfm_out = self.transformer_encoder(pos_encoded); mkt_feat = tfm_out.mean(dim=1); acc_feat = self.acc_proc(acc); return torch.cat([mkt_feat, acc_feat], dim=1)
+````
 
 ### Showcase 2: Automated HPO Pipeline (Optuna + Ray)
-This is the `objective_worker` function that allows Optuna and Ray to work together, automatically training and evaluating hundreds of different model variations across multiple GPUs to find the optimal strategy.
 
-*(**HƯỚNG DẪN:** Bạn hãy chụp ảnh màn hình hàm `objective_worker` của bạn và dán vào đây)*
-`[DÁN ẢNH CHỤP MÀN HÌNH CODE CỦA BẠN VÀO ĐÂY]`
+This is the `objective_worker` function that allows Optuna (for HPO) and Ray (for parallelism) to work together. It defines the entire "train-and-evaluate" job that can be distributed across multiple GPUs to find the optimal set of hyperparameters automatically.
+
+```python
+def objective_worker(trial: optuna.Trial, gpu_queue, training_params: dict,
+                     train_data_arrays: dict, val_data_arrays: dict,
+                     hparam_definer_func=None,
+                     model_compiler_func=None,
+                     objective_metric: str = "sharpe", seed_override: int = None,
+                     load_checkpoint_path: str = None, save_checkpoint_path: str = None,
+                     debug_mode: bool = False, detailed_log_path: str = None,
+                     eval_episodes: int = 5):
+    gpu_id = -1
+    try:
+        assert gpu_queue is not None, "Lỗi: gpu_queue không được cung cấp."
+        gpu_id = gpu_queue.get(timeout=120)
+        
+        return objective(trial, gpu_id, training_params, 
+                         train_data_arrays=train_data_arrays, 
+                         val_data_arrays=val_data_arrays,
+                         hparam_definer_func=hparam_definer_func,
+                         model_compiler_func=model_compiler_func,
+                         objective_metric=objective_metric, seed_override=seed_override,
+                         load_checkpoint_path=load_checkpoint_path, save_checkpoint_path=save_checkpoint_path,
+                         debug_mode=debug_mode, detailed_log_path=detailed_log_path,
+                         eval_episodes=eval_episodes)
+                         
+    except optuna.exceptions.TrialPruned as e:
+        raise e
+    except Exception as e:
+        print(f"---!!! LỖI NGHIÊM TRỌNG TRONG WORKER (GPU {gpu_id}, Seed {seed_override}) !!!---")
+        traceback.print_exc()
+        trial.set_user_attr("worker_error", traceback.format_exc())
+        raise e
+    finally:
+        if gpu_id != -1 and gpu_queue is not None:
+            gpu_queue.put(gpu_id)
+```
 
 ### Showcase 3: Evaluation & Backtesting Results
-Example of evaluation results from a training run, showing key performance metrics.
 
-*(**HƯỚNG DẪN:** Bạn hãy chạy một trong các ô Phân tích (ví dụ Ô 8.1, 9.7) và chụp ảnh màn hình biểu đồ PnL hoặc bảng xếp hạng kết quả. Dán ảnh vào đây.)*
+*(**HƯỚNG DẪN:** Bạn hãy chạy một trong các ô Phân tích (ví dụ Ô 8.1, 9.7) và **chụp ảnh màn hình** biểu đồ PnL hoặc bảng xếp hạng kết quả. Dán ảnh vào đây.)*
+
 `[DÁN ẢNH CHỤP MÀN HÌNH KẾT QUẢ/BIỂU ĐỒ CỦA BẠN VÀO ĐÂY]`
+
+```
+```
