@@ -97,8 +97,6 @@ def objective_worker(trial: optuna.Trial, gpu_queue, training_params: dict,
 
 ### Showcase 3: Evaluation & Backtesting Results
 
-*(**HƯỚNG DẪN:** Bạn hãy chạy một trong các ô Phân tích (ví dụ Ô 8.1, 9.7) và **chụp ảnh màn hình** biểu đồ PnL hoặc bảng xếp hạng kết quả. Dán ảnh vào đây.)*
-
 <img width="913" height="442" alt="image" src="https://github.com/user-attachments/assets/078927f8-cfb3-4474-b07d-8b5424f4ab53" />
 
 <img width="897" height="338" alt="image" src="https://github.com/user-attachments/assets/9853dc6f-3638-43f8-bbd4-de9e52e498a6" />
