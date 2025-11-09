@@ -99,7 +99,8 @@ def objective_worker(trial: optuna.Trial, gpu_queue, training_params: dict,
 
 *(**HƯỚNG DẪN:** Bạn hãy chạy một trong các ô Phân tích (ví dụ Ô 8.1, 9.7) và **chụp ảnh màn hình** biểu đồ PnL hoặc bảng xếp hạng kết quả. Dán ảnh vào đây.)*
 
-`[DÁN ẢNH CHỤP MÀN HÌNH KẾT QUẢ/BIỂU ĐỒ CỦA BẠN VÀO ĐÂY]`
+<img width="913" height="442" alt="image" src="https://github.com/user-attachments/assets/078927f8-cfb3-4474-b07d-8b5424f4ab53" />
 
-```
-```
+<img width="897" height="338" alt="image" src="https://github.com/user-attachments/assets/9853dc6f-3638-43f8-bbd4-de9e52e498a6" />
+
+<img width="392" height="241" alt="image" src="https://github.com/user-attachments/assets/50d6818d-c166-43ad-b69b-7fdc6bf9139c" />
