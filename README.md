@@ -7,7 +7,7 @@ The primary goal is not just to build a single bot, but to create a robust pipel
 ## Core Technologies & Concepts
 
 * **AI Framework:** PyTorch
-* **Core Architecture:** **Transformer (TFM)** [user_prompt] & Temporal Convolutional Networks (TCN) for feature extraction from market data.
+* **Core Architecture:** **Transformer (TFM)**  & Temporal Convolutional Networks (TCN) for feature extraction from market data.
 * **Strategy Model:** Reinforcement Learning (Soft Actor-Critic) to train an agent that makes trading decisions.
 * **MLOps Pipeline:** **Optuna** for Hyperparameter Optimization (HPO) and **Ray** for distributed, multi-GPU training.
 * **Experimental Research:** Mamba (SSM) integration for benchmarking against Transformer-based models.
