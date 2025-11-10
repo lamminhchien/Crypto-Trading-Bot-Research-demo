@@ -18,7 +18,7 @@ The primary goal is not just to build a single bot, but to create a robust pipel
 This project follows a structured **quantitative research** workflow:
 
 ### 1. Data Collection & Curation
-Collected and synthesized **datasets** from various sources (Kaggle). This involved extensive cleaning, filtering [user_prompt], and feature engineering to create high-quality, multi-timeframe datasets suitable for training deep learning models.
+Collected and synthesized **datasets** from various sources (Kaggle). This involved extensive cleaning, filtering , and feature engineering to create high-quality, multi-timeframe datasets suitable for training deep learning models.
 
 ### 2. Custom Reinforcement Learning Environment
 Developed a complex, multi-agent (arena-style) trading environment based on Gymnasium. This environment accurately simulates real-market conditions, including:
@@ -28,7 +28,7 @@ Developed a complex, multi-agent (arena-style) trading environment based on Gymn
 * A zero-sum reward function (`_calculate_arena_rewards`) to foster competitive agent behavior.
 
 ### 3. Model Architecture (ExtractorTransformer)
-The agent's "eyes" use a hybrid **Transformer (TFM)** [user_prompt] and **TCN** architecture (`ExtractorTransformer`). This model processes both market history (`market_data`) and real-time account status (`account_data`) to generate a feature-rich state representation for the Actor-Critic policy.
+The agent's "eyes" use a hybrid **Transformer (TFM)**  and **TCN** architecture (`ExtractorTransformer`). This model processes both market history (`market_data`) and real-time account status (`account_data`) to generate a feature-rich state representation for the Actor-Critic policy.
 
 ### 4. Automated Training & HPO Pipeline
 Created a scalable training pipeline using **Ray** to run multiple training experiments in parallel. This pipeline is fully integrated with **Optuna** to automatically search for the best-performing hyperparameters (e.g., learning rates, reward function weights).
@@ -40,11 +40,11 @@ The framework includes a rigorous **backtesting** module (`evaluate_model`, `run
 
 ## Project Showcase (Code Demo)
 
-As the core trading logic and proprietary strategy parameters are a key part of this research, the full source code is not publicly available [user_prompt]. However, here are key architectural components demonstrating the project's capabilities.
+As the core trading logic and proprietary strategy parameters are a key part of this research, the full source code is not publicly available. However, here are key architectural components demonstrating the project's capabilities.
 
 ### Showcase 1: Transformer-based Feature Extractor
 
-This is the core `ExtractorTransformer` class, which combines TCNs and a **Transformer Encoder** [user_prompt] to process market data and account data into a single state vector for the RL agent.
+This is the core `ExtractorTransformer` class, which combines TCNs and a **Transformer Encoder**  to process market data and account data into a single state vector for the RL agent.
 
 ```python
 class ExtractorTransformer(BaseFeaturesExtractor):
