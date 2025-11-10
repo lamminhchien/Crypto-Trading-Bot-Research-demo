@@ -102,3 +102,11 @@ def objective_worker(trial: optuna.Trial, gpu_queue, training_params: dict,
 <img width="897" height="338" alt="image" src="https://github.com/user-attachments/assets/9853dc6f-3638-43f8-bbd4-de9e52e498a6" />
 
 <img width="392" height="241" alt="image" src="https://github.com/user-attachments/assets/50d6818d-c166-43ad-b69b-7fdc6bf9139c" />
+
+<img width="700" height="493" alt="image" src="https://github.com/user-attachments/assets/c3360a21-0395-45a4-b6ae-9cc30e8397b0" />
+
+<img width="891" height="482" alt="image" src="https://github.com/user-attachments/assets/5391838c-d1b5-4c76-901d-6064f588feed" />
+
+<img width="469" height="496" alt="image" src="https://github.com/user-attachments/assets/3ee94910-6f78-4e7e-a166-9a98b048192e" />
+
+<img width="1189" height="473" alt="image" src="https://github.com/user-attachments/assets/64b335f4-82e2-4a94-9af8-e790087ca9d6" />
