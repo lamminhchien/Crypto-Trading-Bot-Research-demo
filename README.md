@@ -111,4 +111,6 @@ def objective_worker(trial: optuna.Trial, gpu_queue, training_params: dict,
 
 <img width="1189" height="473" alt="image" src="https://github.com/user-attachments/assets/64b335f4-82e2-4a94-9af8-e790087ca9d6" />
 
-<img width="976" height="555" alt="image" src="https://github.com/user-attachments/assets/be69c550-1b84-4ef9-aa07-1158daa3b734" />
+<img width="1211" height="390" alt="image" src="https://github.com/user-attachments/assets/5dcbe86c-b235-4b30-b1b3-7efb77b4bef7" />
+
+<img width="1194" height="559" alt="image" src="https://github.com/user-attachments/assets/127e9f51-5357-48a5-b074-57e5de1643f4" />
